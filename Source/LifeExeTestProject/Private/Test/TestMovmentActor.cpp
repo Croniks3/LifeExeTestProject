@@ -1,23 +1,37 @@
 #include "Test/TestMovmentActor.h"
+#include "Components/StaticMeshComponent.h"
 
-// Sets default values
+
 ATestMovmentActor::ATestMovmentActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	SetRootComponent(Mesh);
 }
 
-// Called when the game starts or when spawned
 void ATestMovmentActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	InitialLocation = GetActorLocation();
+	InitialScale = GetActorScale3D();
 }
 
-// Called every frame
 void ATestMovmentActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	FVector CurrentLocation = GetActorLocation();
+	float Time = GetWorld()->GetTimeSeconds();
+	CurrentLocation.Z = InitialLocation.Z + Amplitude * FMath::Sin(Frequency * Time);
+	SetActorLocation(CurrentLocation);
+}
 
+void ATestMovmentActor::AnimateByScale()
+{
+	FVector CurrentScale = GetActorScale3D();
+	float Time = GetWorld()->GetTimeSeconds();
+	CurrentScale = InitialScale + ScaleAmplitude * FMath::Abs(FMath::Sin(Time * ScaleFrequency));
+	SetActorScale3D(CurrentScale);
 }
