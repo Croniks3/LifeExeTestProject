@@ -1,5 +1,6 @@
 #include "Test/TestMovmentActor.h"
 #include "Components/StaticMeshComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
 
 
 ATestMovmentActor::ATestMovmentActor()
@@ -13,6 +14,14 @@ ATestMovmentActor::ATestMovmentActor()
 void ATestMovmentActor::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	UMaterialInstanceDynamic* MI = Mesh->CreateDynamicMaterialInstance(0);
+	if(MI)
+	{
+		MI->SetVectorParameterValue("BaseColor", FLinearColor::Yellow);
+		MI->SetVectorParameterValue("GradientMultiplier", FLinearColor(0.0f, 0.0f, 0.0f, 0.0f));
+		MI->SetVectorParameterValue("GradientAddendum", FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+	}
 	
 	InitialLocation = GetActorLocation();
 	InitialScale = GetActorScale3D();
