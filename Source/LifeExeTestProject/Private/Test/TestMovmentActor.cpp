@@ -18,9 +18,9 @@ void ATestMovmentActor::BeginPlay()
 	UMaterialInstanceDynamic* MI = Mesh->CreateDynamicMaterialInstance(0);
 	if(MI)
 	{
-		MI->SetVectorParameterValue("BaseColor", FLinearColor::Green);
-		MI->SetVectorParameterValue("GradientMultiplier", FLinearColor(0.0f, 0.0f, 0.0f, 0.0f));
-		MI->SetVectorParameterValue("GradientAddendum", FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+		MI->SetVectorParameterValue("BaseColor", ColorData.BaseColor);
+		MI->SetVectorParameterValue("GradientMultiplier", ColorData.GradientMultiplier);
+		MI->SetVectorParameterValue("GradientAddendum", ColorData.GradientAddendum);
 	}
 	
 	InitialLocation = GetActorLocation();
@@ -31,7 +31,7 @@ void ATestMovmentActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	switch(AnimationType)
+	switch(AnimationData.AnimationType)
 	{
 		case EAnimationType::Move:
 			DoMoveAnimation();
@@ -52,7 +52,7 @@ void ATestMovmentActor::DoMoveAnimation()
 {
 	FVector CurrentLocation = GetActorLocation();
 	float Time = GetWorld()->GetTimeSeconds();
-	CurrentLocation.Z = InitialLocation.Z + MoveAnimAmplitude * FMath::Sin(Time * MoveAnimFrequency);
+	CurrentLocation.Z = InitialLocation.Z + AnimationData.MoveAmplitude * FMath::Sin(Time * AnimationData.MoveFrequency);
 	SetActorLocation(CurrentLocation);
 }
 
@@ -60,6 +60,6 @@ void ATestMovmentActor::DoScaleAnimation()
 {
 	FVector CurrentScale = GetActorScale3D();
 	float Time = GetWorld()->GetTimeSeconds();
-	CurrentScale = InitialScale + ScaleAnimAmplitude * FMath::Abs(FMath::Sin(Time * ScaleAnimFrequency));
+	CurrentScale = InitialScale + AnimationData.ScaleAmplitude * FMath::Abs(FMath::Sin(Time * AnimationData.ScaleFrequency));
 	SetActorScale3D(CurrentScale);
 }
