@@ -18,25 +18,28 @@ void ATestMovmentActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	UMaterialInstanceDynamic* MI = Mesh->CreateDynamicMaterialInstance(0);
-	if(MI)
+	MaterialInstanceDynamic = Mesh->CreateDynamicMaterialInstance(0);
+	if(MaterialInstanceDynamic)
 	{
-		MI->SetVectorParameterValue("BaseColor", ColorData.BaseColor);
-		MI->SetVectorParameterValue("GradientMultiplier", ColorData.GradientMultiplier);
-		MI->SetVectorParameterValue("GradientAddendum", ColorData.GradientAddendum);
+		MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", ColorData.BaseColor);
+		MaterialInstanceDynamic->SetVectorParameterValue("GradientMultiplier", ColorData.GradientMultiplier);
+		MaterialInstanceDynamic->SetVectorParameterValue("GradientAddendum", ColorData.GradientAddendum);
 	}
 	
 	InitialLocation = GetActorLocation();
 	InitialScale = GetActorScale3D();
 
-	GetWorldTimerManager().SetTimer
-	(
-		TimerHandle, 
-		this, 
-		&ThisClass::OnTimerFired, 
-		CommonData.TimerRate, 
-		true
-	);
+	if(ColorData.bRandomColorByTimer == true)
+	{
+		GetWorldTimerManager().SetTimer
+		(
+			ColorData.RandomColorTimerHandle,
+			this,
+			&ThisClass::OnRandomColorTimerFired,
+			ColorData.RandomColorTimerRate,
+			true
+		);
+	}
 }
 
 void ATestMovmentActor::Tick(float DeltaTime)
@@ -76,8 +79,9 @@ void ATestMovmentActor::DoScaleAnimation()
 	SetActorScale3D(CurrentScale);
 }
 
-void ATestMovmentActor::OnTimerFired()
+void ATestMovmentActor::OnRandomColorTimerFired()
 {
-	UE_LOG(LogTestMovementActor, Display, TEXT("(%s:%s)")
-		,*GetHumanReadableName(), ANSI_TO_TCHAR(__FUNCTION__));
+	const FLinearColor NewColor = FLinearColor::MakeRandomColor();
+	MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", NewColor);
+	UE_LOG(LogTestMovementActor, Display, TEXT("Color to set up: %s"), *NewColor.ToString());
 }

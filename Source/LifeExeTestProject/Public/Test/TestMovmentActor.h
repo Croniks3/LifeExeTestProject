@@ -6,6 +6,7 @@
 
 
 class UStaticMeshComponent;
+class UMaterialInstanceDynamic;
 
 UENUM(BlueprintType)
 enum class EAnimationType : uint8
@@ -53,15 +54,21 @@ struct FColorData
 
 	UPROPERTY(EditAnywhere)
 	FLinearColor GradientAddendum = FLinearColor::White;
+
+	UPROPERTY(EditAnywhere)
+	bool bRandomColorByTimer{false};
+
+	UPROPERTY(EditAnywhere)
+	float RandomColorTimerRate = 3.0f;
+
+	FTimerHandle RandomColorTimerHandle;
 };
 
 USTRUCT(BlueprintType)
 struct FCommonData
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere)
-	float TimerRate = 3.0f;
+	
 };
 
 UCLASS()
@@ -93,12 +100,12 @@ protected:
 	void DoScaleAnimation();
 	
 private:
+	UPROPERTY()
+	UMaterialInstanceDynamic* MaterialInstanceDynamic;
+
 	FVector InitialLocation;
 	FVector InitialScale;
-
-	FTimerHandle TimerHandle;
-
+	
 	void DoMoveAnimation();
-
-	void OnTimerFired();
+	void OnRandomColorTimerFired();
 };
