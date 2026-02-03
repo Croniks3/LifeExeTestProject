@@ -1,6 +1,9 @@
 #include "Test/TestMovmentActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "TimerManager.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogTestMovementActor, All, All);
 
 
 ATestMovmentActor::ATestMovmentActor()
@@ -25,6 +28,15 @@ void ATestMovmentActor::BeginPlay()
 	
 	InitialLocation = GetActorLocation();
 	InitialScale = GetActorScale3D();
+
+	GetWorldTimerManager().SetTimer
+	(
+		TimerHandle, 
+		this, 
+		&ThisClass::OnTimerFired, 
+		CommonData.TimerRate, 
+		true
+	);
 }
 
 void ATestMovmentActor::Tick(float DeltaTime)
@@ -62,4 +74,10 @@ void ATestMovmentActor::DoScaleAnimation()
 	float Time = GetWorld()->GetTimeSeconds();
 	CurrentScale = InitialScale + AnimationData.ScaleAmplitude * FMath::Abs(FMath::Sin(Time * AnimationData.ScaleFrequency));
 	SetActorScale3D(CurrentScale);
+}
+
+void ATestMovmentActor::OnTimerFired()
+{
+	UE_LOG(LogTestMovementActor, Display, TEXT("(%s:%s)")
+		,*GetHumanReadableName(), ANSI_TO_TCHAR(__FUNCTION__));
 }

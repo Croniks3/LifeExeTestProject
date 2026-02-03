@@ -45,14 +45,23 @@ struct FColorData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere)
 	FLinearColor BaseColor = FLinearColor::Green;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere)
 	FLinearColor GradientMultiplier = FLinearColor::Black;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere)
 	FLinearColor GradientAddendum = FLinearColor::White;
+};
+
+USTRUCT(BlueprintType)
+struct FCommonData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	float TimerRate = 3.0f;
 };
 
 UCLASS()
@@ -74,8 +83,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ConfigData")
 	FAnimationData AnimationData;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ConfigData")
+	UPROPERTY(EditAnywhere, Category = "ConfigData")
 	FColorData ColorData;
+
+	UPROPERTY(EditAnywhere, Category = "ConfigData")
+	FCommonData CommonData;
 
 	UFUNCTION(BlueprintCallable)
 	void DoScaleAnimation();
@@ -84,5 +96,9 @@ private:
 	FVector InitialLocation;
 	FVector InitialScale;
 
+	FTimerHandle TimerHandle;
+
 	void DoMoveAnimation();
+
+	void OnTimerFired();
 };
