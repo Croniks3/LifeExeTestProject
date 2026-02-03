@@ -7,6 +7,15 @@
 
 class UStaticMeshComponent;
 
+UENUM()
+enum class EAnimationType : uint8
+{
+	Static = 0,
+	Move,
+	Scale,
+	All
+};
+
 UCLASS()
 class LIFEEXETESTPROJECT_API ATestMovmentActor : public AActor
 {
@@ -15,29 +24,34 @@ class LIFEEXETESTPROJECT_API ATestMovmentActor : public AActor
 public:	
 	ATestMovmentActor();
 	virtual void Tick(float DeltaTime) override;
-
+	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UStaticMeshComponent> Mesh;
 
-	UPROPERTY(EditAnywhere, Category="Movement")
-	float Amplitude = 50.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+	EAnimationType AnimationType;
 
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float Frequency = 2.0f;
+	UPROPERTY(EditAnywhere, Category="Animation")
+	float MoveAnimAmplitude = 50.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	FVector ScaleAmplitude = FVector(1.0f);
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	float MoveAnimFrequency = 2.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Movement")
-	float ScaleFrequency = 2.0f;
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	FVector ScaleAnimAmplitude = FVector(1.0f);
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	float ScaleAnimFrequency = 2.0f;
 	
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void AnimateByScale();
+	void DoScaleAnimation();
 
 private:
+	void DoMoveAnimation();
+
 	FVector InitialLocation;
 	FVector InitialScale;
 };
