@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TestMovmentActor.generated.h"
+#include "TestMovementActor.generated.h"
 
 
 class UStaticMeshComponent;
@@ -72,12 +72,12 @@ struct FCommonData
 };
 
 UCLASS()
-class LIFEEXETESTPROJECT_API ATestMovmentActor : public AActor
+class LIFEEXETESTPROJECT_API ATestMovementActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	ATestMovmentActor();
+	ATestMovementActor();
 	virtual void Tick(float DeltaTime) override;
 	
 protected:

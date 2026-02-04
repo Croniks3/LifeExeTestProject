@@ -1,4 +1,4 @@
-#include "Test/TestMovmentActor.h"
+#include "Test/TestMovementActor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TimerManager.h"
@@ -6,7 +6,7 @@
 DEFINE_LOG_CATEGORY_STATIC(LogTestMovementActor, All, All);
 
 
-ATestMovmentActor::ATestMovmentActor()
+ATestMovementActor::ATestMovementActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -14,7 +14,7 @@ ATestMovmentActor::ATestMovmentActor()
 	SetRootComponent(Mesh);
 }
 
-void ATestMovmentActor::BeginPlay()
+void ATestMovementActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
@@ -42,7 +42,7 @@ void ATestMovmentActor::BeginPlay()
 	}
 }
 
-void ATestMovmentActor::Tick(float DeltaTime)
+void ATestMovementActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
@@ -63,7 +63,7 @@ void ATestMovmentActor::Tick(float DeltaTime)
 	}
 }
 
-void ATestMovmentActor::DoMoveAnimation()
+void ATestMovementActor::DoMoveAnimation()
 {
 	FVector CurrentLocation = GetActorLocation();
 	float Time = GetWorld()->GetTimeSeconds();
@@ -71,7 +71,7 @@ void ATestMovmentActor::DoMoveAnimation()
 	SetActorLocation(CurrentLocation);
 }
 
-void ATestMovmentActor::DoScaleAnimation()
+void ATestMovementActor::DoScaleAnimation()
 {
 	FVector CurrentScale = GetActorScale3D();
 	float Time = GetWorld()->GetTimeSeconds();
@@ -79,7 +79,7 @@ void ATestMovmentActor::DoScaleAnimation()
 	SetActorScale3D(CurrentScale);
 }
 
-void ATestMovmentActor::OnRandomColorTimerFired()
+void ATestMovementActor::OnRandomColorTimerFired()
 {
 	const FLinearColor NewColor = FLinearColor::MakeRandomColor();
 	MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", NewColor);
