@@ -63,6 +63,16 @@ void ATestMovementActor::Tick(float DeltaTime)
 	}
 }
 
+void ATestMovementActor::SetAnimationData(const FAnimationData& InAnimationData)
+{
+	AnimationData = InAnimationData;
+}
+
+void ATestMovementActor::SetColorData(const FColorData& InColorData)
+{
+	ColorData = InColorData;
+}
+
 void ATestMovementActor::DoMoveAnimation()
 {
 	FVector CurrentLocation = GetActorLocation();
@@ -83,5 +93,6 @@ void ATestMovementActor::OnRandomColorTimerFired()
 {
 	const FLinearColor NewColor = FLinearColor::MakeRandomColor();
 	MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", NewColor);
-	UE_LOG(LogTestMovementActor, Display, TEXT("Color to set up: %s"), *NewColor.ToString());
+	UE_LOG(LogTestMovementActor, Display, TEXT("(%s(%s)) Color to set up: %s"), 
+		*GetActorLabel(), ANSI_TO_TCHAR(__FUNCTION__), *NewColor.ToString());
 }

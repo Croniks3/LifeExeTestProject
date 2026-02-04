@@ -1,5 +1,4 @@
 #include "Test/TestActorCreator.h"
-#include "Test/TestMovementActor.h"
 
 
 ATestActorCreator::ATestActorCreator()
@@ -15,7 +14,11 @@ void ATestActorCreator::BeginPlay()
 	UWorld* World = GetWorld();
 	if(World)
 	{
-		//World->SpawnActor();
+		const FTransform& SelfTransform = GetTransform();
+		ATestMovementActor* NewActor = World->SpawnActorDeferred<ATestMovementActor>(SpawnActorClass, SelfTransform);
+		NewActor->SetAnimationData(SpawnActorAnimationData);
+		NewActor->SetColorData(SpawnActorColorData);
+		NewActor->FinishSpawning(SelfTransform);
 	}
 }
 

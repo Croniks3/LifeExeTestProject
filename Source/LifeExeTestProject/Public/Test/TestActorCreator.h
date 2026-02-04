@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Test/TestMovementActor.h"
 #include "TestActorCreator.generated.h"
 
 
@@ -16,9 +17,15 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-//protected:
-//	UPROPERTY()
-//	TSubclassOf<ATestMovementActor> MYUPROPERTY;
+protected:
+	UPROPERTY(EditAnywhere, Category = "SpawnActorSettings")
+	TSubclassOf<ATestMovementActor> SpawnActorClass;
+
+	UPROPERTY(EditAnywhere, Category = "SpawnActorSettings")
+	FColorData SpawnActorColorData;
+
+	UPROPERTY(EditAnywhere, Category = "SpawnActorSettings")
+	FAnimationData SpawnActorAnimationData;
 
 public:	
 	virtual void Tick(float DeltaTime) override;

@@ -79,6 +79,10 @@ class LIFEEXETESTPROJECT_API ATestMovementActor : public AActor
 public:	
 	ATestMovementActor();
 	virtual void Tick(float DeltaTime) override;
+
+public:
+	void SetAnimationData(const FAnimationData& InAnimationData);
+	void SetColorData(const FColorData& InColorData);
 	
 protected:
 	virtual void BeginPlay() override;
