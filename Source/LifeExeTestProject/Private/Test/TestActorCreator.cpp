@@ -15,10 +15,15 @@ void ATestActorCreator::BeginPlay()
 	if(World)
 	{
 		const FTransform& SelfTransform = GetTransform();
+
 		ATestMovementActor* NewActor = World->SpawnActorDeferred<ATestMovementActor>(SpawnActorClass, SelfTransform);
 		NewActor->SetAnimationData(SpawnActorAnimationData);
 		NewActor->SetColorData(SpawnActorColorData);
 		NewActor->FinishSpawning(SelfTransform);
+
+#if WITH_EDITOR
+		NewActor->SetFolderPath(FName("TestMovementActors"));
+#endif
 	}
 }
 
