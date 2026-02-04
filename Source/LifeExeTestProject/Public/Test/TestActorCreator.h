@@ -6,6 +6,24 @@
 #include "TestActorCreator.generated.h"
 
 
+USTRUCT(BlueprintType)
+struct FSpawnPointInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, meta = (MakeEditWidget))
+	FTransform Transform;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ATestMovementActor> SpawnActorClass;
+	
+	UPROPERTY(EditAnywhere)
+	FColorData SpawnActorColorData;
+
+	UPROPERTY(EditAnywhere)
+	FAnimationData SpawnActorAnimationData;
+};
+
 UCLASS()
 class LIFEEXETESTPROJECT_API ATestActorCreator : public AActor
 {
@@ -19,13 +37,7 @@ protected:
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "SpawnActorSettings")
-	TSubclassOf<ATestMovementActor> SpawnActorClass;
-
-	UPROPERTY(EditAnywhere, Category = "SpawnActorSettings")
-	FColorData SpawnActorColorData;
-
-	UPROPERTY(EditAnywhere, Category = "SpawnActorSettings")
-	FAnimationData SpawnActorAnimationData;
+	TArray<FSpawnPointInfo> SpawnPoints;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
