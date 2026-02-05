@@ -22,6 +22,9 @@ struct FSpawnPointInfo
 
 	UPROPERTY(EditAnywhere)
 	FAnimationData SpawnActorAnimationData;
+
+	UPROPERTY(EditAnywhere)
+	FCommonData SpawnActorCommonData;
 };
 
 UCLASS()

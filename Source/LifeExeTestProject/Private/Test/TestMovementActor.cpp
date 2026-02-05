@@ -5,20 +5,26 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogTestMovementActor, All, All);
 
+#pragma region ActorMethods
 
 ATestMovementActor::ATestMovementActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
-	SetRootComponent(Mesh);
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
+	SetRootComponent(MeshComponent);
 }
 
 void ATestMovementActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	MaterialInstanceDynamic = Mesh->CreateDynamicMaterialInstance(0);
+	if(CommonData.StaticMesh)
+	{
+		MeshComponent->SetStaticMesh(CommonData.StaticMesh);
+	}
+
+	MaterialInstanceDynamic = MeshComponent->CreateDynamicMaterialInstance(0);
 	if(MaterialInstanceDynamic)
 	{
 		MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", ColorData.BaseColor);
@@ -63,6 +69,15 @@ void ATestMovementActor::Tick(float DeltaTime)
 	}
 }
 
+#pragma endregion
+
+#pragma region GetterAndSetterMethods
+
+void ATestMovementActor::SetCommonData(const FCommonData& InCommonData)
+{
+	CommonData = InCommonData;
+}
+
 void ATestMovementActor::SetAnimationData(const FAnimationData& InAnimationData)
 {
 	AnimationData = InAnimationData;
@@ -72,6 +87,8 @@ void ATestMovementActor::SetColorData(const FColorData& InColorData)
 {
 	ColorData = InColorData;
 }
+
+#pragma endregion
 
 void ATestMovementActor::DoMoveAnimation()
 {
@@ -91,8 +108,11 @@ void ATestMovementActor::DoScaleAnimation()
 
 void ATestMovementActor::OnRandomColorTimerFired()
 {
-	const FLinearColor NewColor = FLinearColor::MakeRandomColor();
-	MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", NewColor);
-	UE_LOG(LogTestMovementActor, Display, TEXT("(%s(%s)) Color to set up: %s"), 
-		*GetActorLabel(), ANSI_TO_TCHAR(__FUNCTION__), *NewColor.ToString());
+	if(MaterialInstanceDynamic)
+	{
+		const FLinearColor NewColor = FLinearColor::MakeRandomColor();
+		MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", NewColor);
+		UE_LOG(LogTestMovementActor, Display, TEXT("(%s(%s)) Color to set up: %s"),
+			*GetActorLabel(), ANSI_TO_TCHAR(__FUNCTION__), *NewColor.ToString());
+	}
 }

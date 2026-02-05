@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/StaticMesh.h"
 #include "TestMovementActor.generated.h"
 
 
@@ -69,6 +70,8 @@ struct FCommonData
 {
 	GENERATED_BODY()
 	
+	UPROPERTY(EditAnywhere)
+	UStaticMesh* StaticMesh;
 };
 
 UCLASS()
@@ -81,6 +84,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
+	void SetCommonData(const FCommonData& InCommonData);
 	void SetAnimationData(const FAnimationData& InAnimationData);
 	void SetColorData(const FColorData& InColorData);
 	
@@ -89,7 +93,7 @@ protected:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	TObjectPtr<UStaticMeshComponent> Mesh;
+	TObjectPtr<UStaticMeshComponent> MeshComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ConfigData")
 	FAnimationData AnimationData;

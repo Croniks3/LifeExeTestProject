@@ -17,13 +17,17 @@ void ATestActorCreator::BeginPlay()
 		for(const auto& SpawnPoint : SpawnPoints)
 		{
 			ATestMovementActor* SpawnedActor = World->SpawnActorDeferred<ATestMovementActor>(SpawnPoint.SpawnActorClass, SpawnPoint.Transform);
-			SpawnedActor->SetAnimationData(SpawnPoint.SpawnActorAnimationData);
-			SpawnedActor->SetColorData(SpawnPoint.SpawnActorColorData);
-			SpawnedActor->FinishSpawning(SpawnPoint.Transform);
+			if(SpawnedActor)
+			{
+				SpawnedActor->SetCommonData(SpawnPoint.SpawnActorCommonData);
+				SpawnedActor->SetAnimationData(SpawnPoint.SpawnActorAnimationData);
+				SpawnedActor->SetColorData(SpawnPoint.SpawnActorColorData);
+				SpawnedActor->FinishSpawning(SpawnPoint.Transform);
 
 #if WITH_EDITOR
-			SpawnedActor->SetFolderPath(FName("TestMovementActors"));
+				SpawnedActor->SetFolderPath(FName("TestMovementActors"));
 #endif
+			}
 		}
 	}
 }
