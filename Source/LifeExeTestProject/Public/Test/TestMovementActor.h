@@ -24,7 +24,7 @@ struct FAnimationData
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	EAnimationType AnimationType;
+	EAnimationType AnimationType = EAnimationType::Static;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float MoveAmplitude = 50.0f;
@@ -71,7 +71,7 @@ struct FCommonData
 	GENERATED_BODY()
 	
 	UPROPERTY(EditAnywhere)
-	UStaticMesh* StaticMesh;
+	UStaticMesh* StaticMesh = nullptr;
 };
 
 UCLASS()
