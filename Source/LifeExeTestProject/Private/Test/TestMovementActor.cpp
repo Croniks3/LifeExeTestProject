@@ -112,7 +112,7 @@ void ATestMovementActor::OnRandomColorTimerFired()
 	{
 		const FLinearColor NewColor = FLinearColor::MakeRandomColor();
 		MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", NewColor);
-		UE_LOG(LogTestMovementActor, Display, TEXT("(%s(%s)) Color to set up: %s"),
-			*GetActorLabel(), ANSI_TO_TCHAR(__FUNCTION__), *NewColor.ToString());
+		/*UE_LOG(LogTestMovementActor, Display, TEXT("(%s(%s)) Color to set up: %s"),
+			*GetActorLabel(), ANSI_TO_TCHAR(__FUNCTION__), *NewColor.ToString());*/
 	}
 }
