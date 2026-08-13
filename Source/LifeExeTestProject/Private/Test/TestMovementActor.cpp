@@ -100,19 +100,18 @@ void ATestMovementActor::DoMoveAnimation()
 
 void ATestMovementActor::DoScaleAnimation()
 {
-	FVector CurrentScale = GetActorScale3D();
 	float Time = GetWorld()->GetTimeSeconds();
-	CurrentScale = InitialScale + AnimationData.ScaleAmplitude * FMath::Abs(FMath::Sin(Time * AnimationData.ScaleFrequency));
+	FVector CurrentScale = InitialScale + AnimationData.ScaleAmplitude * FMath::Abs(FMath::Sin(Time * AnimationData.ScaleFrequency));
 	SetActorScale3D(CurrentScale);
 }
 
-void ATestMovementActor::OnRandomColorTimerFired()
+void ATestMovementActor::OnRandomColorTimerFired() const
 {
 	if(MaterialInstanceDynamic)
 	{
 		const FLinearColor NewColor = FLinearColor::MakeRandomColor();
 		MaterialInstanceDynamic->SetVectorParameterValue("BaseColor", NewColor);
-		/*UE_LOG(LogTestMovementActor, Display, TEXT("(%s(%s)) Color to set up: %s"),
-			*GetActorLabel(), ANSI_TO_TCHAR(__FUNCTION__), *NewColor.ToString());*/
+		/* UE_LOG(LogTestMovementActor, Display, TEXT("(%s(%s)) Color to set up: %s"),
+			*GetActorLabel(), ANSI_TO_TCHAR(__FUNCTION__), *NewColor.ToString()); */
 	}
 }

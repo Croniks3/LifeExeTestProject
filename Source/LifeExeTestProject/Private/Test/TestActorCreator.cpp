@@ -4,20 +4,17 @@
 ATestActorCreator::ATestActorCreator()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void ATestActorCreator::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	UWorld* World = GetWorld();
-	if(World)
+	if(UWorld* World = GetWorld())
 	{
-		for(const auto& SpawnPoint : SpawnPoints)
+		for(const FSpawnPointInfo& SpawnPoint : SpawnPoints)
 		{
-			ATestMovementActor* SpawnedActor = World->SpawnActorDeferred<ATestMovementActor>(SpawnPoint.SpawnActorClass, SpawnPoint.Transform);
-			if(SpawnedActor)
+			if(ATestMovementActor* SpawnedActor = World->SpawnActorDeferred<ATestMovementActor>(SpawnPoint.SpawnActorClass, SpawnPoint.Transform))
 			{
 				SpawnedActor->SetCommonData(SpawnPoint.SpawnActorCommonData);
 				SpawnedActor->SetAnimationData(SpawnPoint.SpawnActorAnimationData);
@@ -35,5 +32,4 @@ void ATestActorCreator::BeginPlay()
 void ATestActorCreator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }

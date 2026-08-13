@@ -106,7 +106,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void DoScaleAnimation();
-	
+
 private:
 	UPROPERTY()
 	UMaterialInstanceDynamic* MaterialInstanceDynamic;
@@ -115,5 +115,5 @@ private:
 	FVector InitialScale;
 	
 	void DoMoveAnimation();
-	void OnRandomColorTimerFired();
+	void OnRandomColorTimerFired() const;
 };
